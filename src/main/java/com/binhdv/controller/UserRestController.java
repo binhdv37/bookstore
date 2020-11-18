@@ -17,7 +17,7 @@ public class UserRestController {
 
     public boolean isLogin(HttpSession session){
         if(session==null) return false;
-        if(session.getAttribute("user")!=null) return true;
+        if(session.getAttribute("username")!=null) return true;
         return false;
     }
 
@@ -25,8 +25,8 @@ public class UserRestController {
     public String addtocart(HttpSession session, @RequestParam("book") int bookid){
         if(!isLogin(session)) return "false";
 
-        User user = (User)session.getAttribute("user");
-        userService.addBookToCart(user, bookid);
+        String username = (String)session.getAttribute("username");
+        userService.addBookToCart(username, bookid);
         return "ok";
     }
 
@@ -34,8 +34,8 @@ public class UserRestController {
     public String minus(HttpSession session, @RequestParam("book")int bookid){
         if(!isLogin(session)) return "false";
 
-        User user = (User)session.getAttribute("user");
-        userService.minus(user, bookid);
+        String username = (String)session.getAttribute("username");
+        userService.minus(username, bookid);
         return "ok";
 
     }
@@ -44,8 +44,8 @@ public class UserRestController {
     public String delete(HttpSession session, @RequestParam("book")int bookid){
         if(!isLogin(session)) return "false";
 
-        User user = (User)session.getAttribute("user");
-        userService.delete(user, bookid);
+        String username = (String)session.getAttribute("username");
+        userService.delete(username, bookid);
         return "ok";
     }
 
@@ -53,8 +53,8 @@ public class UserRestController {
     public String purchase(HttpSession session, @RequestParam("book")int bookid){
         if(!isLogin(session)) return "false";
 
-        User user = (User)session.getAttribute("user");
-        userService.purchase(user, bookid);
+        String username = (String)session.getAttribute("username");
+        userService.purchase(username, bookid);
         return "ok";
     }
 
@@ -62,8 +62,8 @@ public class UserRestController {
     public String cancel(HttpSession session, @RequestParam("item")int itemid){
         if(!isLogin(session)) return "false";
 
-        User user = (User)session.getAttribute("user");
-        userService.cancel(user, itemid);
+        String username = (String)session.getAttribute("username");
+        userService.cancel(username, itemid);
         return "ok";
     }
 

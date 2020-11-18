@@ -3,20 +3,23 @@ package com.binhdv.controller;
 import com.binhdv.dto.AdminDTO;
 import com.binhdv.dto.BookDTO;
 import com.binhdv.entity.Book;
+import com.binhdv.entity.Item;
+import com.binhdv.entity.User;
 import com.binhdv.service.BookService;
+import com.binhdv.service.ItemService;
+import com.binhdv.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpOutputMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.PastOrPresent;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,6 +27,12 @@ public class AdminController {
 
     @Autowired
     BookService bookService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    ItemService itemService;
 
     public boolean isLogin(HttpSession session){
         if(session==null) return false;
@@ -149,10 +158,87 @@ public class AdminController {
         return "redirect:/a-productmanager";
     }
 
-//    @GetMapping("a-usermanager")
-//    public String userManager(){
-//
-//    }
+    @GetMapping("a-usermanager")
+    public String userManager(HttpSession session, HttpServletRequest request){
+        if(!isLogin(session)) return "redirect:/administrator";
 
+        List<User> userList = userService.getAllUsers();
+        request.setAttribute("userList", userList);
+        return "admin/userManager";
+    }
+
+    @GetMapping("a-vieworder-{userid}-{status}")
+    public String vieworder(HttpSession session,
+                            @PathVariable("userid")int userid,
+                            @PathVariable("status")int status,
+                            HttpServletRequest request,
+                            Model m){
+        if(!isLogin(session)) return "redirect:/administrator";
+
+        User user = userService.getUserById(userid);
+        if(user==null) return "error/404";
+
+        List<Item> itemList = new ArrayList<Item>();
+
+        request.setAttribute("username", user.getUsername());
+        request.setAttribute("userid", user.getId());
+        //status=2 : delivering
+        if(status==2){
+            for(Item item : user.getItemList()){
+                if(item.getStatus()==2) itemList.add(item);
+            }
+            request.setAttribute("itemList", itemList);
+            return "admin/order2";
+        }
+
+        //status=3 : delivered
+        if(status==3){
+            for(Item item : user.getItemList()){
+                if(item.getStatus()==3) itemList.add(item);
+            }
+            request.setAttribute("itemList", itemList);
+            return "admin/order3";
+        }
+
+        //status=4 : canceled
+        if(status==4){
+            for(Item item : user.getItemList()){
+                if(item.getStatus()==4) itemList.add(item);
+            }
+            request.setAttribute("itemList", itemList);
+            return "admin/order4";
+        }
+
+        //status==1 or else : waiting for confirmation
+        for(Item item : user.getItemList()){
+            if(item.getStatus()==1) itemList.add(item);
+        }
+        request.setAttribute("itemList", itemList);
+        return "admin/order1";
+    }
+
+    //confirm order
+    @PostMapping("/a-confirm-{userid}-{itemid}")
+    public String confirmOrder(HttpSession session,
+                               @PathVariable("itemid")int itemid,
+                               @PathVariable("userid")int userid,
+                               @RequestParam("shiptime")int shiptime){
+        if(!isLogin(session)) return "redirect:/administrator";
+
+        //change status (1->2), add intend shiptime
+        itemService.confirm(itemid, shiptime);
+        return "redirect:/a-vieworder-"+String.valueOf(userid)+"-1";
+    }
+
+    //Confirm item delivered :
+    @GetMapping("/a-confirmdelivered-{userid}-{itemid}")
+    public String confirmDelivered(HttpSession session,
+                                   @PathVariable("userid")int userid,
+                                   @PathVariable("itemid")int itemid){
+        if(!isLogin(session)) return "redirect:/administrator";
+
+        itemService.confirmDelivered(itemid);
+        return "redirect:/a-vieworder-"+String.valueOf(userid)+"-2";
+    }
 
 }

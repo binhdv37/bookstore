@@ -57,11 +57,13 @@
                 <li class="nav-item custom-li-margin">
                     <a href="shoppingcart" class="nav-link" ><i class="fas fa-shopping-cart"></i></a>
                 </li>
-                <li class="nav-item ctm-li-margin">
-                    <a href="" class="nav-link">
-                        <mark>${sessionScope.user.username}</mark>
-                    </a>
-                </li>
+                <c:if test="${sessionScope.username!=null}">
+                    <li class="nav-item ctm-li-margin">
+                        <a href="" class="nav-link">
+                            <mark>${sessionScope.username}</mark>
+                        </a>
+                    </li>
+                </c:if>
             </ul>
         </div>
     </div>

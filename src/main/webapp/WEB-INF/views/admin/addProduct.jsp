@@ -42,7 +42,7 @@
                     <small><i class="fas fa-shopping-cart"></i></small> &nbsp; Order manager
                 </a>
                 <a href="a-accountsetting" class="bg-secondary text-white list-group-item list-group-item-action">
-                    <small><i class="fas fa-wrench"></i></small> &nbsp; Acount setting
+                    <small><i class="fas fa-wrench"></i></small> &nbsp; Account setting
                 </a>
             </div>
         </div>

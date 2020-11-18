@@ -58,11 +58,13 @@
                 <li class="nav-item ctm-li-margin">
                     <a href="shoppingcart" class="nav-link" ><i class="fas fa-shopping-cart"></i></a>
                 </li>
-                <li class="nav-item ctm-li-margin">
-                    <a href="" class="nav-link">
-                        <mark>${sessionScope.user.username}</mark>
-                    </a>
-                </li>
+                <c:if test="${sessionScope.username!=null}">
+                    <li class="nav-item ctm-li-margin">
+                        <a href="" class="nav-link">
+                            <mark>${sessionScope.username}</mark>
+                        </a>
+                    </li>
+                </c:if>
             </ul>
         </div>
     </div>
@@ -107,7 +109,7 @@
 <c:if test="${requestScope.itemList.size()==0}">
     <div class="container text-center pt-5">
         <img src="resource/img/error/nothinghere.gif" alt="nothing here" class="w-25"/>
-        <h3 class="text-danger my-auto d-inline">Oop. Looks like there is nothing here!</h3>
+        <h3 class="text-danger my-auto d-inline">Oops. Looks like there is nothing here!</h3>
     </div>
 </c:if>
 
@@ -147,10 +149,23 @@
             </div>
             <!--action-->
             <div class="col-2 my-auto">
-                <a href="" class="btn btn-outline-dark" >View Detail</a>
+                <a href="#item${item.id}" class="btn btn-outline-dark" data-toggle="collapse">More action</a>
             </div>
         </div>
         <!-- end of item 1 -->
+
+        <!-- more info collapse-->
+        <div class="collapse" id="item${item.id}">
+            <form class="form-inline">
+                <label for="placedtime" class="mr-sm-2">Placed time:</label>
+                <input type="text" id="placedtime" disabled class="form-control mb-2 mr-sm-5" value="${item.placedTime}">
+                <br/>
+                <label for="shiptime" class="mr-sm-2">Intend ship time:</label>
+                <input name="shiptime" id="shiptime" disabled type="text" value="${item.shippedTime}" class="form-control mb-2 mr-sm-1" />day
+                <a href="confirmreceived-${item.id}" class="btn btn-primary ml-sm-5 mb-2" >Confirm received</a>
+            </form>
+        </div>
+        <!--end of more info collapse-->
 
         <!--horizontal line-->
         <hr style="border:1px solid grey">

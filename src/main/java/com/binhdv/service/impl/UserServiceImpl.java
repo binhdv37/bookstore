@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -59,7 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addBookToCart(User user, int bookid) {
+    public void addBookToCart(String username, int bookid) {
         /*
         todo :
             - check if book exist in cart
@@ -71,20 +72,20 @@ public class UserServiceImpl implements UserService {
         Book book = bookService.getBookById(bookid);
         if(book==null) return;
 
-        boolean bookExistInCart = false;
+
+        User user = getUserByUsername(username);
 
         //find item, exist => change quatity
         for(Item item : user.getItemList()){
             if(item.getBook().getId()==bookid && item.getStatus()==0){
-                bookExistInCart = true;
                 item.setQuantity(item.getQuantity()+1);
                 item.setTotalprice(item.getTotalprice()+item.getBook().getPrice());
                 itemService.update(item);
+                return;
             }
         }
 
         //book did not exist in cart
-        if(bookExistInCart==false){
             //create new item :
             Item item = new Item();
             item.setBook(book);
@@ -95,12 +96,13 @@ public class UserServiceImpl implements UserService {
             itemService.save(item);
             user.getItemList().add(item);
             update(user);
-        }
 
     }
 
     @Override
-    public void minus(User user, int bookid) {
+    public void minus(String username, int bookid) {
+        User user = getUserByUsername(username);
+
         //find item, exist => change quatity
         for(Item item : user.getItemList()){
             if(item.getBook().getId()==bookid && item.getStatus()==0 && item.getQuantity()>1){
@@ -112,63 +114,68 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(User user, int bookid) {
-        //find item, delete
-        int x = -1;
-        int itemId = -1;
+    public void delete(String username, int bookid) {
+        User user = getUserByUsername(username);
         List<Item> itemList = user.getItemList();
+
+        int position = -1;
+        int itemid = -1;
+
         //find item
-        for(int i=0; i<itemList.size(); i++){
+        for(int i=0 ; i<itemList.size(); i++){
             if(itemList.get(i).getStatus()==0 && itemList.get(i).getBook().getId()==bookid){
-                x = i;
-                itemId = itemList.get(i).getId();
+                position = i;
+                itemid = itemList.get(i).getId();
             }
         }
-        if(x==-1) return;
 
-        user.getItemList().remove(x);
+        if(position==-1)return;
 
-        //update db :
-        User user1 = getUserById(user.getId());
-        user1.getItemList().remove(x);
-        update(user1);
-        itemService.delete(itemId);
+        //delete item :
+        itemList.remove(itemList.get(position));
+        update(user);
+        itemService.delete(itemid);
+
     }
 
     @Override
-    public void purchase(User user, int bookid) {
+    public void purchase(String username, int bookid) {
+        User user = getUserByUsername(username);
+
         //find item, change status.
-        int itemid = -1;
+
+        Date placedtime = new Date();
 
         //find item :
         for(Item item : user.getItemList()){
             if(item.getStatus()==0 && item.getBook().getId()==bookid){
                 item.setStatus(1);
-                itemid = item.getId();
+                item.setPlacedTime(placedtime);
+                itemService.update(item);
+                return;
             }
         }
 
-        if(itemid==-1)return;
-
-        //update db :
-        Item item = itemService.getItemById(itemid);
-        item.setStatus(1);
-        itemService.update(item);
     }
 
     @Override
-    public void cancel(User user, int itemid) {
+    public void cancel(String username, int itemid) {
+        User user = getUserByUsername(username);
+
         //find item, change status to 4
         for(Item item : user.getItemList()){
             if(item.getId()==itemid && item.getStatus()==1){
                 item.setStatus(4);
+                item.setCancelTime(new Date());
+                itemService.update(item);
+                return;
             }
         }
+    }
 
-        //update db :
-        Item item = itemService.getItemById(itemid);
-        item.setStatus(4);
-        itemService.update(item);
+    @Override
+    public List<User> getAllUsers() {
+        return userDao.getAllUsers();
     }
 
 

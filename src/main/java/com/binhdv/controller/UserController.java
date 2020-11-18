@@ -5,6 +5,7 @@ import com.binhdv.dto.UserRegisterDTO;
 import com.binhdv.entity.Item;
 import com.binhdv.entity.User;
 import com.binhdv.service.BookService;
+import com.binhdv.service.ItemService;
 import com.binhdv.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -28,9 +29,12 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    ItemService itemService;
+
     public boolean isLogin(HttpSession session){
         if(session==null) return false;
-        if(session.getAttribute("user")!=null) return true;
+        if(session.getAttribute("username")!=null) return true;
         return false;
     }
 
@@ -77,7 +81,7 @@ public class UserController {
             User user = userService.getUserByUsername(username);
 
             if(user!=null && user.getPassword().equals(password)){
-                session.setAttribute("user", user);
+                session.setAttribute("username", user.getUsername());
                 return "redirect:/home";
             }
             else{
@@ -132,7 +136,7 @@ public class UserController {
     public String cart(HttpSession session, HttpServletRequest request){
         if(!isLogin(session)) return "redirect:/login";
 
-        User user = (User)session.getAttribute("user");
+        User user = userService.getUserByUsername((String)session.getAttribute("username"));
         List<Item> list = new ArrayList<Item>();
         for(Item item : user.getItemList()){
             if(item.getStatus()==0){
@@ -147,7 +151,7 @@ public class UserController {
     public String order(HttpSession session, HttpServletRequest request, @PathVariable("status")int status){
         if(!isLogin(session)) return "redirect:/login";
 
-        User user = (User)session.getAttribute("user");
+        User user = userService.getUserByUsername((String)session.getAttribute("username"));
         List<Item> list = new ArrayList<Item>();
 
         //status = 2 : delivering
@@ -183,7 +187,7 @@ public class UserController {
             return "pages/order4";
         }
 
-        //else : (status ==1 or else)
+        //else : (status ==1 or else) : waiting for confirmation
         for(Item item : user.getItemList()){
             if(item.getStatus()==1){
                 list.add(item);
@@ -193,6 +197,15 @@ public class UserController {
         return "pages/order1";
     }
 
+    //user confirm received order
+    @GetMapping("confirmreceived-{itemid}")
+    public String confirmReceived(HttpSession session,
+                                  @PathVariable("itemid")int itemid){
+        if(!isLogin(session)) return "redirect:/login";
+
+        itemService.confirmDelivered(itemid);
+        return "redirect:/order-2";
+    }
 
 
 }

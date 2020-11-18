@@ -32,6 +32,9 @@ public class Item {
     @Column(name = "deliveredTime")
     private Date deliveredTime;
 
+    @Column(name = "cancelTime")
+    private Date cancelTime;
+
     public int getId() {
         return id;
     }
@@ -94,5 +97,13 @@ public class Item {
 
     public void setDeliveredTime(Date deliveredTime) {
         this.deliveredTime = deliveredTime;
+    }
+
+    public Date getCancelTime() {
+        return cancelTime;
+    }
+
+    public void setCancelTime(Date cancelTime) {
+        this.cancelTime = cancelTime;
     }
 }

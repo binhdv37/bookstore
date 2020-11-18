@@ -92,7 +92,7 @@ function deleteItem(pos, bookid){
             window.alert("Delete item successfully");
             window.setTimeout(function () {
                 window.location.href = "shoppingcart";
-                },1000);
+                },500);
         }
     };
     xhttp.open("GET", "delete?book="+bookid, true);

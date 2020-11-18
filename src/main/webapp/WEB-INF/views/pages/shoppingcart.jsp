@@ -58,11 +58,13 @@
                 <li class="nav-item ctm-li-margin">
                     <a href="shoppingcart" class="nav-link" ><i class="fas fa-shopping-cart"></i></a>
                 </li>
-                <li class="nav-item ctm-li-margin">
-                    <a href="" class="nav-link">
-                        <mark>${sessionScope.user.username}</mark>
-                    </a>
-                </li>
+                <c:if test="${sessionScope.username!=null}">
+                    <li class="nav-item ctm-li-margin">
+                        <a href="" class="nav-link">
+                            <mark>${sessionScope.username}</mark>
+                        </a>
+                    </li>
+                </c:if>
             </ul>
         </div>
     </div>
@@ -98,9 +100,9 @@
 
     <!-- message when there is no item to display :  -->
     <c:if test="${requestScope.itemList.size()==0}">
-        <div class="container text-center pt-5">
-            <img src="https://media.giphy.com/media/13d2jHlSlxklVe/giphy.gif" alt="nothing here" class="w-25"/>
-            <h3 class="text-danger my-auto d-inline">Oop. Looks like there is nothing here!</h3>
+        <div class="container text-center pt-5 my-5">
+            <img src="resource/img/error/nothinghere.gif" alt="nothing here" class="w-25"/>
+            <h3 class="text-danger my-auto d-inline">Oops. Looks like there is nothing here!</h3>
         </div>
     </c:if>
 

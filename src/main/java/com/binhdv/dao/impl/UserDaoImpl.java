@@ -44,4 +44,12 @@ public class UserDaoImpl implements UserDao {
         sessionFactory.getCurrentSession().update(user);
     }
 
+    @Override
+    public List<User> getAllUsers() {
+        Session session = sessionFactory.getCurrentSession();
+        String sql = "from Users ";
+        Query<User> query = session.createQuery(sql);
+        return query.list();
+    }
+
 }
