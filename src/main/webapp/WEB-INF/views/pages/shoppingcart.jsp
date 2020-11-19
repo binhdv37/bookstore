@@ -29,6 +29,7 @@
             margin-bottom: 1.5rem;
         }
     </style>
+
 </head>
 <body>
 <!-- navigate bar :  -->
@@ -113,7 +114,11 @@
         <div class="row text-center p-3 my-5 lead ctm-item">
             <!--check box-->
             <div class="col-1 my-auto">
-                <input type="checkbox" class="ctm-checkbox" onclick="check(${i})">
+<%--                <input type="checkbox" class="ctm-checkbox" onclick="check(${i})">--%>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" onclick="check(${i})" class="custom-control-input ctm-checkbox" id="switch${i}" name="example">
+                    <label class="custom-control-label" for="switch${i}"></label>
+                </div>
             </div>
             <!--product info-->
             <div class="col-4 my-auto">

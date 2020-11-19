@@ -29,6 +29,82 @@
             margin-bottom: 1.5rem;
         }
     </style>
+    <!-- modal style-->
+    <style>
+        body {font-family: Arial, Helvetica, sans-serif;}
+
+        /* The Modal (background) */
+        .ctm-modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .ctm-modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 30%;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+
+        /* Add Animation */
+        @-webkit-keyframes animatetop {
+            from {top:-300px; opacity:0}
+            to {top:0; opacity:1}
+        }
+
+        @keyframes animatetop {
+            from {top:-300px; opacity:0}
+            to {top:0; opacity:1}
+        }
+
+        /* The Close Button */
+        .ctm-close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .ctm-close:hover,
+        .ctm-close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .ctm-modal-header {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
+
+        .ctm-modal-body {padding: 10px 16px 2px;}
+
+        .ctm-modal-footer {
+            padding: 2px 16px;
+            border-top: 1px solid black;
+            color: white;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -105,6 +181,27 @@
 </div>
 
 
+<!-- The Modal -->
+<div id="myModal" class="ctm-modal">
+
+    <!-- Modal content -->
+    <div class="ctm-modal-content">
+        <div class="ctm-modal-header">
+            <span class="ctm-close" onclick="closeModal()">&times;</span>
+            <h2>Congratulation!</h2>
+        </div>
+        <div class="ctm-modal-body">
+            <p>Add item to cart successfully!</p>
+        </div>
+        <div class="ctm-modal-footer text-right">
+            <button onclick="closeModal()" class="btn btn-secondary text-white" >Close</button>
+        </div>
+    </div>
+
+</div>
+<!--end of the modal-->
+
+
 <!-- footer -->
 <div class="container-fluid pt-5">
     <div class="row text-center text-white bg-dark py-3">
@@ -135,13 +232,34 @@
 </div>
 
 <script type="text/javascript">
+
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // When the user clicks the button, open the modal
+    function openModal(){
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    function closeModal(){
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
     //send ajax request : "add to cart" to server
     function addToCart(bookid){
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 //check response message, ok=> alert ok, false=> redirect to login page
-                if(this.responseText=="ok") window.alert("Add to cart successfully");
+                if(this.responseText=="ok") openModal();
                 if(this.responseText=="false") window.location.href = "login";
             }
         };

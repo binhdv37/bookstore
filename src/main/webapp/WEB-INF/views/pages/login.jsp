@@ -84,7 +84,7 @@
         <div class="text-danger mt-3">${requestScope.errMessage}</div>
         <div class="mt-4">
             <a href="register">
-                <span class="lead">Does not have account yet? Register here!</span>
+                <span class="lead">Do not have account yet? Register here!</span>
             </a>
         </div>
     </div>
