@@ -40,4 +40,19 @@
 - Mật khẩu admin mặc định : "123456"
 
 ## Một số hình ảnh website :
+- Giao diện trang chủ : 
+<img src="images/index.png" width="80%" />
+
+- Sản phẩm : 
+<img src="images/product.png" width="80%" />
+
+- Giỏ hàng : 
+<img src="images/cart.png" width="80%" />
+
+- Tình trạng đơn hàng : 
+<img src="images/order.png" width="80%" />
+
+- Trang CMS admin : 
+<img src="images/a-productmanager.png" width="80%" />
+
 
