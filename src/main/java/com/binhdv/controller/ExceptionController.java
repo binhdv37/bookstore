@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ExceptionController {
 
-    private static Logger logger = Logger.getLogger(ExceptionHandler.class);
+    private static Logger logger = Logger.getLogger(ExceptionController.class);
 
     @ExceptionHandler(value = NoHandlerFoundException.class)
     public String error404(Exception e){
