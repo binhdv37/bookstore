@@ -1,58 +1,59 @@
 # bookstore
 
-## Mô tả : 
-- Trang web bán sách dạy lập trình cho lập trình viên.
+## Description : 
+- A e-commerce website that selling programing books for programmer.
 
-## Chức năng chính : 
+## Functionality : 
 
-#### Người dùng : 
-- Đăng kí tài khoản, đăng nhập, đăng xuất.
-- Tạo, thêm, sửa, xóa sản phẩm trong giỏ hàng.
-- Đặt mua hàng, xem tình trạng đơn hàng, lịch sử giao dịch.
+#### Users : 
+- Register, login, logout.
+- View, add, delete product from cart.
+- Purchase product, view history, order status.
 
-### Người quản lí (Admin)
-- Có trang quản lí CMS riêng.
-- Quản lí sản phẩm : Thêm, sửa, xóa thông tin sản phẩm.
-- Quản lí người dùng : Xem, thêm, sửa, xóa tài khoản người dùng, xem lịch sử giao dịch người dùng.
-- Quản lí đơn hàng : Xem, xác nhận đơn hàng, xác nhận thời gian giao hàng.
-- Quản lí tài khoản admin : Thay đổi thông tin tài khoản admin.
+### Administrator
+- Admins have their own CMS page.
+- Product manager : Add, edit, delete product.
+- User manager : Show, edit, delete User account, view user's order history.
+- Order manager : Show, confirm, change order status.
+- Admin account manager : Change admin account information.
 
-## Công nghệ sử dụng : 
+## Technology : 
 - Backend : Spring MVC, Hibernate, Microsoft SQL Server 2008.
 - Frontend : HTML, CSS Javascript, Bootstrap.
 - Tool : [Intellij IDEA](https://www.jetbrains.com/idea/), [VS Code](https://code.visualstudio.com/).
 
-## Thông tin phiên bản : 
+## Version information : 
 - Java 8
 - Tomcat 8.0.53
 - Miscrosoft SQL Server 2008 
 - Spring MVC : 5.2.5
 - Hibernate : 5.4.10
-- Chi tiết phiên bản các gói jar khác có trong file pom.xml
+- See detail in pom.xml file.
 
-## Cách thức cài đặt project : 
-- Import project vào IDE.
-- Cài đặt server chạy project : Nên sử dụng Tomcat cùng phiên bản hoặc cao hơn.
-- Bên phía database, cài đặt tài khoản "sa" với mật khẩu "123456".
-- Khởi chạy ứng dụng.
-- Đường link đến trang CMS quản lí của admin : "projectname/administrator"
-- Tài khoản admin mặc định : "binhdv"
-- Mật khẩu admin mặc định : "123456"
+## Installation : 
+- Import project into IDE.
+- Servlet container configure : You should use same version of Tomcat or higher.
+- Database configure : Use Microsoft SQL Server, using "sa" account, password "123456"
+- Run application.
+- Administrator page url : "projectname/administrator"
+- Default admin username : "binhdv"
+- Default admin password : "123456"
+- Feel free to contact me if you got any problem : vanbinhdoan971@gmail.com
 
-## Một số hình ảnh website :
-- Giao diện trang chủ : 
+## Some final project pictures :
+- Index page : 
 <img src="images/index.png" width="80%" />
 
-- Sản phẩm : 
+- Product : 
 <img src="images/product.png" width="80%" />
 
-- Giỏ hàng : 
+- Cart : 
 <img src="images/cart.png" width="80%" />
 
-- Tình trạng đơn hàng : 
+- Order status : 
 <img src="images/order.png" width="80%" />
 
-- Trang CMS admin : 
+- Administrator CMS page : 
 <img src="images/a-productmanager.png" width="80%" />
 
 
