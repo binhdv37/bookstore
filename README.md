@@ -56,4 +56,7 @@
 - Administrator CMS page : 
 <img src="images/a-productmanager.png" width="80%" />
 
+- Database design : (Admin table save admin information, used for admin's login and logout action. This is not the best practice. I'll update this project, secure it with spring security soon!)
+<img src="images/db_design.png" width = 80% />
+
 
